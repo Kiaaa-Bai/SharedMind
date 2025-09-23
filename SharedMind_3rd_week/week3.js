@@ -13,56 +13,29 @@ function init() {
 }
 
 function initInterface() {
-    canvas = document.createElement('canvas');
-    canvas.setAttribute('id', 'backgroundCanvas');
-    canvas.className = 'background-canvas';
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    document.body.appendChild(canvas);
+    canvas = document.getElementById('backgroundCanvas');
+    imagePreviewContainer = document.getElementById('imagePreviewContainer');
+    imageInputElement = document.getElementById('imageInput');
+    uploadedImageElement = document.getElementById('uploadedReferenceImage');
+    generatedImageElement = document.getElementById('generatedCharacterImage');
 
-    imagePreviewContainer = document.createElement('div');
-    imagePreviewContainer.setAttribute('id', 'imagePreviewContainer');
-    imagePreviewContainer.classList.add('app-layout');
-    document.body.appendChild(imagePreviewContainer);
+    if (!canvas || !imagePreviewContainer || !imageInputElement || !uploadedImageElement || !generatedImageElement) {
+        console.error('Required interface elements are missing from the HTML layout.');
+        return;
+    }
 
-    const uploadPanel = document.createElement('div');
-    uploadPanel.setAttribute('id', 'uploadPanel');
-    uploadPanel.classList.add('panel', 'panel--upload');
-    imagePreviewContainer.appendChild(uploadPanel);
-
-    const generatedPanel = document.createElement('div');
-    generatedPanel.setAttribute('id', 'generatedPanel');
-    generatedPanel.classList.add('panel', 'panel--generated');
-    imagePreviewContainer.appendChild(generatedPanel);
-
-    const uploadTitle = document.createElement('h2');
-    uploadTitle.textContent = 'Upload Your Image';
-    uploadTitle.classList.add('panel__title');
-    uploadPanel.appendChild(uploadTitle);
-
-    imageInputElement = document.createElement('input');
-    imageInputElement.setAttribute('type', 'file');
-    imageInputElement.setAttribute('id', 'imageInput');
-    imageInputElement.setAttribute('accept', 'image/*');
-    imageInputElement.classList.add('file-input');
-    uploadPanel.appendChild(imageInputElement);
-
-    uploadedImageElement = document.createElement('img');
-    uploadedImageElement.setAttribute('id', 'uploadedReferenceImage');
-    uploadedImageElement.classList.add('panel__image');
-    uploadPanel.appendChild(uploadedImageElement);
-
-    const generatedTitle = document.createElement('h2');
-    generatedTitle.textContent = 'New Generated Chinese Characters';
-    generatedTitle.classList.add('panel__title');
-    generatedPanel.appendChild(generatedTitle);
-
-    generatedImageElement = document.createElement('img');
-    generatedImageElement.setAttribute('id', 'generatedCharacterImage');
-    generatedImageElement.classList.add('panel__image');
-    generatedPanel.appendChild(generatedImageElement);
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
 
     imageInputElement.addEventListener('change', handleImageSelection);
+}
+
+function resizeCanvas() {
+    if (!canvas) {
+        return;
+    }
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
 
 function handleImageSelection(event) {

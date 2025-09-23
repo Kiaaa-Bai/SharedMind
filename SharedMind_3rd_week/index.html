@@ -1,12 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hans">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Chinese Characters</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <canvas id="backgroundCanvas" class="background-canvas"></canvas>
+
+    <div id="imagePreviewContainer" class="app-layout">
+        <div id="uploadPanel" class="panel panel--upload">
+            <h2 class="panel__title">Upload Reference Image</h2>
+            <input type="file" id="imageInput" class="file-input" accept="image/*">
+            <img id="uploadedReferenceImage" class="panel__image" alt="上传的参考图像预览">
+        </div>
+
+        <div id="generatedPanel" class="panel panel--generated">
+            <h2 class="panel__title">Generated New Chinese Characters</h2>
+            <img id="generatedCharacterImage" class="panel__image" alt="AI 生成的汉字">
+        </div>
+    </div>
+
     <script src="week3.js"></script>
 </body>
 
