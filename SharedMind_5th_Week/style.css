@@ -1,0 +1,188 @@
+/* ------------------------------ */
+/* Global Layout + Helper Styles  */
+/* ------------------------------ */
+
+/* Reset core spacing so the layout can fill the viewport edge-to-edge. */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #000;
+  color: #f5f5f5;
+}
+
+/* Stretch the main wrapper to fill the viewport so the video can occupy it completely. */
+.app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Hide visual label while keeping it available to screen readers. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* ------------------------------ */
+/* Video Player + Danmu Overlay   */
+/* ------------------------------ */
+
+.video-section {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+/* The YouTube iframe is injected into this container by the player API. */
+#player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* The overlay shares the exact footprint with the player so comments pass over the video. */
+#danmu-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* keep the player clickable */
+  overflow: hidden;
+}
+
+/* Individual danmu comments appear as floating inline blocks. */
+.danmu {
+  position: absolute;
+  left: 100%;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  animation-name: drift-left;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  text-shadow:
+    1px 1px 2px rgba(0, 0, 0, 0.95),
+    -1px 1px 2px rgba(0, 0, 0, 0.95),
+    1px -1px 2px rgba(0, 0, 0, 0.95),
+    -1px -1px 2px rgba(0, 0, 0, 0.95);
+}
+
+/* Basic right-to-left drift animation for danmu comments. */
+@keyframes drift-left {
+  from {
+    transform: translateX(0);
+    opacity: 0.95;
+  }
+  to {
+    transform: translateX(-160vw);
+    opacity: 0.95;
+  }
+}
+
+/* ------------------------------ */
+/* Form + Instructions Styling    */
+/* ------------------------------ */
+
+/* Keep the form compact and mobile friendly. */
+#danmu-form {
+  position: absolute;
+  left: 50%;
+  bottom: 3.5rem;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  width: min(680px, 92vw);
+}
+
+#danmu-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.55);
+  color: inherit;
+  font-size: 1rem;
+}
+
+#danmu-input::placeholder {
+  color: rgba(245, 245, 245, 0.6);
+}
+
+#danmu-input:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.35);
+  outline-offset: 2px;
+}
+
+#danmu-form button {
+  padding: 0.75rem 1.8rem;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #ff6b6b, #feca57);
+  color: #000;
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+#danmu-form button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+#danmu-form button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Small note under the form that reminds the user about Firebase config. */
+.instructions {
+  position: absolute;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(245, 245, 245, 0.7);
+  text-align: center;
+}
+
+.instructions code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.35rem;
+}
+
+/* Make sure the layout remains comfortable on narrow screens. */
+@media (max-width: 640px) {
+  #danmu-form {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  #danmu-form button {
+    width: 100%;
+  }
+}
