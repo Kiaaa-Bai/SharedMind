@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SharedMind Week 6 – Live Danmu Stream</title>
+    <!-- Link the stylesheet that defines the layout, danmu animation, and helper classes. -->
+    <link rel="stylesheet" href="./style.css" />
+    <!-- Load the YouTube IFrame Player API so the video timestamp can be read from JavaScript. -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+  </head>
+  <body>
+    <!--
+      The main app wrapper keeps the video player, comment overlay, and form together.
+      Everything else (CSS + JS) hooks into the IDs defined here.
+    -->
+    <main class="app">
+      <header class="app-header">
+        <div class="header-left">
+          <h1>SharedMind Week 6 – Live Danmu Stream</h1>
+          <p class="tagline">Sign in to personalize your danmu comments or stay Anonymous.</p>
+        </div>
+        <div class="auth-controls">
+          <div class="user-chip" aria-live="polite">
+            <img
+              id="user-avatar"
+              class="auth-avatar hidden"
+              alt=""
+              width="32"
+              height="32"
+            />
+            <span id="user-name">Anonymous</span>
+          </div>
+          <button type="button" id="login-button" class="auth-button">Login with Google</button>
+          <button type="button" id="logout-button" class="auth-button hidden">Logout</button>
+        </div>
+      </header>
+      <section class="video-section">
+        <!--
+          The YouTube iframe player is rendered inside this DIV by the IFrame API.
+          We pair it with a positioned overlay where danmu comments are animated.
+        -->
+        <div class="video-wrapper">
+          <div id="player" aria-label="SharedMind Week 6 video player"></div>
+          <div id="danmu-layer" aria-hidden="true"></div>
+        </div>
+
+        <!--
+          Input form for sending danmu comments.
+          The form posts to Firebase through week6.js instead of performing a regular HTTP submit.
+        -->
+        <form id="danmu-form" autocomplete="off">
+          <label class="sr-only" for="danmu-input">Type your comment</label>
+          <input
+            id="danmu-input"
+            type="text"
+            name="comment"
+            maxlength="140"
+            placeholder="Share a thought while the video plays…"
+            required
+          />
+          <button type="submit">Send</button>
+        </form>
+
+        <!-- Quick helper text clarifying how the danmu feed works. -->
+        <p class="instructions">
+          Comments sync live from Firebase under the <code>week6-danmu</code> path.
+        </p>
+      </section>
+    </main>
+
+    <!--
+      The Firebase logic, YouTube integration, and danmu animation control live in the module script.
+      Using type="module" enables the Firebase modular SDK imports used inside week6.js.
+    -->
+    <script type="module" src="./week6.js"></script>
+  </body>
+</html>
